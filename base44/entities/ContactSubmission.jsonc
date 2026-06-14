@@ -1,0 +1,44 @@
+{
+  "name": "ContactSubmission",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Full name of the person"
+    },
+    "company": {
+      "type": "string",
+      "description": "Company name"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Work email"
+    },
+    "role": {
+      "type": "string",
+      "description": "Job role"
+    },
+    "interest": {
+      "type": "string",
+      "enum": [
+        "GHG Calculator",
+        "ESG Readiness",
+        "Scenario Analysis",
+        "Materiality Assessment",
+        "Climate Readiness Audit",
+        "Partnership / Consulting",
+        "Other"
+      ],
+      "description": "What the person is interested in"
+    },
+    "message": {
+      "type": "string",
+      "description": "Message content"
+    }
+  },
+  "required": [
+    "name",
+    "email"
+  ]
+}
