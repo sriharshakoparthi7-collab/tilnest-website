@@ -108,16 +108,16 @@ export default function ScrollStory() {
           </div>
         </motion.div>
 
-        {/* Text overlay */}
-        <div className="relative z-10 mx-auto max-w-2xl px-6 text-center" style={{ textShadow: "0 2px 16px rgba(255,255,255,0.9)" }}>
+        {/* Text overlay — pinned to bottom quarter of viewport */}
+        <div className="absolute inset-x-0 bottom-0 z-10 pb-16 pt-8 text-center" style={{ background: "linear-gradient(to top, rgba(255,255,255,0.85) 60%, transparent)" }}>
           {scenes.map((s, i) => (
             <motion.div
               key={i}
-              className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-6"
+              className="absolute inset-x-0 bottom-0 px-6 pb-16 text-center"
               animate={{
                 opacity: active === i ? 1 : 0,
-                y: active === i ? 0 : 20,
-                filter: active === i ? "blur(0px)" : "blur(8px)",
+                y: active === i ? 0 : 16,
+                filter: active === i ? "blur(0px)" : "blur(6px)",
               }}
               transition={{ duration: 0.5 }}
               style={{ pointerEvents: active === i ? "auto" : "none" }}
@@ -125,7 +125,7 @@ export default function ScrollStory() {
               <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
                 {s.tag}
               </span>
-              <p className="mt-5 font-heading text-2xl font-bold leading-[1.2] text-balance sm:text-4xl md:text-5xl">
+              <p className="mt-3 mx-auto max-w-2xl font-heading text-2xl font-bold leading-[1.2] text-balance sm:text-3xl md:text-4xl">
                 {s.text}
               </p>
             </motion.div>
