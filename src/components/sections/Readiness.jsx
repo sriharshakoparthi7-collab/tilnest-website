@@ -1,33 +1,40 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/ui-kit/SectionHeading";
+import {
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 
-const categories = [
-  "Governance readiness",
-  "Emissions visibility",
-  "Risk identification",
-  "Scenario planning",
-  "Adaptation strategy",
-  "Reporting readiness",
-  "Data quality",
-  "Operational resilience",
+const data = [
+  { category: "Governance", score: 78 },
+  { category: "Emissions", score: 65 },
+  { category: "Risk ID", score: 82 },
+  { category: "Scenario", score: 58 },
+  { category: "Adaptation", score: 71 },
+  { category: "Reporting", score: 85 },
+  { category: "Data Quality", score: 60 },
+  { category: "Resilience", score: 74 },
 ];
 
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="glass-strong rounded-lg px-3 py-2 text-sm">
+        <p className="font-mono font-semibold text-primary">{payload[0].payload.category}</p>
+        <p className="text-foreground">{payload[0].value} / 100</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function Readiness() {
-  const [angle, setAngle] = useState(0);
-  const raf = useRef();
-
-  useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-    const tick = () => {
-      setAngle((a) => (a + 0.8) % 360);
-      raf.current = requestAnimationFrame(tick);
-    };
-    raf.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf.current);
-  }, []);
-
   return (
     <section id="readiness" className="relative overflow-hidden py-28 md:py-36">
       <div className="absolute inset-0 grid-pattern opacity-20" />
@@ -39,74 +46,71 @@ export default function Readiness() {
         />
 
         <div className="mt-16 flex flex-col items-center gap-14 lg:flex-row lg:justify-center">
-          {/* Radar scan */}
-          <div className="relative flex h-[340px] w-[340px] items-center justify-center sm:h-[420px] sm:w-[420px]">
-            {/* rings */}
-            {[1, 0.72, 0.44].map((s, i) => (
-              <div
-                key={i}
-                className="absolute rounded-full border border-primary/15"
-                style={{ width: `${s * 100}%`, height: `${s * 100}%` }}
-              />
-            ))}
-            {/* cross lines */}
-            <div className="absolute h-full w-px bg-primary/10" />
-            <div className="absolute h-px w-full bg-primary/10" />
-
-            {/* sweeping scan beam */}
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: `conic-gradient(from ${angle}deg, transparent 0deg, rgba(0,240,255,0.25) 30deg, transparent 60deg)`,
-              }}
-            />
-
-            {/* category dots around perimeter */}
-            {categories.map((c, i) => {
-              const a = (i / categories.length) * 360;
-              const lit = Math.abs(((angle - a + 540) % 360) - 180) > 150;
-              const rad = (a * Math.PI) / 180;
-              const x = Math.cos(rad) * 46;
-              const y = Math.sin(rad) * 46;
-              return (
-                <div
-                  key={c}
-                  className="absolute"
-                  style={{ left: `${50 + x}%`, top: `${50 + y}%`, transform: "translate(-50%, -50%)" }}
-                >
-                  <div
-                    className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                      lit ? "bg-primary glow-cyan scale-150" : "bg-primary/30"
-                    }`}
-                  />
-                </div>
-              );
-            })}
-
-            {/* center score */}
-            <div className="relative z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full glass-strong glow-cyan sm:h-40 sm:w-40">
-              <span className="font-heading text-4xl font-extrabold text-primary text-glow-cyan sm:text-5xl">
-                72
+          {/* Spider Chart */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="glass rounded-2xl p-6 glow-cyan w-full max-w-[460px]"
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                Readiness Profile
               </span>
-              <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Readiness
-              </span>
+              <span className="font-heading text-2xl font-extrabold text-primary">72<span className="text-sm font-normal text-muted-foreground">/100</span></span>
             </div>
-          </div>
+            <ResponsiveContainer width="100%" height={320}>
+              <RadarChart data={data} outerRadius="78%">
+                <PolarGrid stroke="rgba(13,148,136,0.15)" />
+                <PolarAngleAxis
+                  dataKey="category"
+                  tick={{ fill: "hsl(var(--foreground))", fontSize: 11, fontFamily: "var(--font-mono)" }}
+                />
+                <PolarRadiusAxis
+                  angle={90}
+                  domain={[0, 100]}
+                  tick={false}
+                  axisLine={false}
+                />
+                <Radar
+                  name="Score"
+                  dataKey="score"
+                  stroke="hsl(var(--primary))"
+                  fill="hsl(var(--primary))"
+                  fillOpacity={0.18}
+                  strokeWidth={2}
+                  dot={{ fill: "hsl(var(--primary))", r: 4, strokeWidth: 0 }}
+                />
+                <Tooltip content={<CustomTooltip />} />
+              </RadarChart>
+            </ResponsiveContainer>
+          </motion.div>
 
-          {/* category list */}
+          {/* Category list */}
           <div className="grid w-full max-w-md grid-cols-2 gap-3">
-            {categories.map((c, i) => (
+            {data.map((c, i) => (
               <motion.div
-                key={c}
+                key={c.category}
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06, duration: 0.5 }}
-                className="glass flex items-center gap-2.5 rounded-lg px-3 py-2.5"
+                className="glass flex flex-col gap-1.5 rounded-lg px-3 py-3"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                <span className="font-mono text-xs text-foreground/80">{c}</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs text-foreground/80">{c.category}</span>
+                  <span className="font-mono text-xs font-semibold text-primary">{c.score}</span>
+                </div>
+                <div className="h-1 w-full overflow-hidden rounded-full bg-secondary">
+                  <motion.div
+                    className="h-full rounded-full bg-primary"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${c.score}%` }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + i * 0.06, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </div>
               </motion.div>
             ))}
           </div>

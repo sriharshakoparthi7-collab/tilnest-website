@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import ClimateGlobe from "@/components/visuals/ClimateGlobe";
 import ParticleField from "@/components/visuals/ParticleField";
@@ -44,9 +44,9 @@ export default function ScrollStory() {
     scrollYProgress,
     [0, 0.55, 1],
     [
-      "radial-gradient(circle at 70% 50%, rgba(255,184,0,0.12), transparent 60%)",
-      "radial-gradient(circle at 50% 50%, rgba(0,240,255,0.10), transparent 60%)",
-      "radial-gradient(circle at 50% 50%, rgba(0,255,178,0.12), transparent 60%)",
+      "radial-gradient(circle at 70% 50%, rgba(217,160,30,0.10), transparent 60%)",
+      "radial-gradient(circle at 50% 50%, rgba(13,148,136,0.09), transparent 60%)",
+      "radial-gradient(circle at 50% 50%, rgba(16,185,129,0.10), transparent 60%)",
     ]
   );
   const modulesOpacity = useTransform(scrollYProgress, [0.6, 0.72, 0.82], [0, 1, 1]);
@@ -83,7 +83,7 @@ export default function ScrollStory() {
         <ClimateGlobe
           mode={mode}
           intensity={intensity}
-          className="absolute left-1/2 top-1/2 h-[90vh] w-[90vh] max-w-[100vw] -translate-x-1/2 -translate-y-1/2 opacity-90"
+          className="absolute left-1/2 top-1/2 h-[90vh] w-[90vh] max-w-[100vw] -translate-x-1/2 -translate-y-1/2 opacity-100"
         />
 
         {/* Orbiting modules — appear in scene 4 */}

@@ -37,8 +37,9 @@ export default function Hero() {
           </div>
 
           <h1 className="font-heading text-4xl font-extrabold leading-[1.05] tracking-tight text-balance sm:text-6xl md:text-7xl">
-            Climate risk is becoming{" "}
-            <span className="text-primary text-glow-cyan">business risk.</span>
+            Climate risk{" "}
+            <span className="text-primary">is</span>{" "}
+            business risk.
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/90">

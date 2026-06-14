@@ -74,42 +74,32 @@ export default function About() {
           </div>
         </div>
 
-        {/* Right — intelligence core */}
-        <div className="relative flex h-[420px] items-center justify-center">
-          <div className="absolute h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-            className="absolute h-80 w-80 rounded-full border border-primary/15"
-          />
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
-            className="absolute h-64 w-64 rounded-full border border-resilience/15"
-          />
-          {/* Core */}
-          <div className="relative z-10 flex h-28 w-28 items-center justify-center rounded-full glass-strong glow-cyan">
-            <span className="font-heading text-sm font-bold text-primary">Tilnest</span>
+        {/* Right — climate data bars */}
+        <div className="relative flex h-[420px] w-full items-end justify-center gap-3 px-4 pb-8">
+          <div className="absolute inset-x-0 bottom-8 h-px bg-border" />
+          <div className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            Climate Strategy Progress
           </div>
-          {/* Floating signals */}
           {signals.map((s, i) => {
-            const angle = (i / signals.length) * Math.PI * 2;
-            const radius = i % 2 === 0 ? 150 : 110;
-            const x = Math.cos(angle) * radius;
-            const y = Math.sin(angle) * radius;
+            const heights = [72, 55, 83, 60, 91, 48, 76, 65];
+            const h = heights[i];
             return (
-              <motion.div
-                key={s}
-                className="absolute rounded-full glass px-3 py-1 font-mono text-[11px] text-foreground/80"
-                style={{ left: "50%", top: "50%" }}
-                animate={{
-                  x: [x, x * 0.85, x],
-                  y: [y, y * 0.85, y],
-                }}
-                transition={{ repeat: Infinity, duration: 4 + i * 0.3, ease: "easeInOut" }}
-              >
-                <span className="-ml-1/2 block -translate-x-1/2 -translate-y-1/2">{s}</span>
-              </motion.div>
+              <div key={s} className="flex flex-col items-center gap-2 flex-1 min-w-0">
+                <motion.div
+                  className="w-full rounded-t-lg bg-gradient-to-t from-primary/60 to-primary relative overflow-hidden"
+                  initial={{ height: 0 }}
+                  whileInView={{ height: `${h * 2.6}px` }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-white/20"
+                    animate={{ opacity: [0, 0.3, 0] }}
+                    transition={{ repeat: Infinity, duration: 2.5 + i * 0.3, ease: "easeInOut" }}
+                  />
+                </motion.div>
+                <span className="font-mono text-[9px] text-muted-foreground text-center leading-tight">{s}</span>
+              </div>
             );
           })}
         </div>
