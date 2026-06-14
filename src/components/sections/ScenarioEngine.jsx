@@ -2,11 +2,11 @@ import React, { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const levers = [
-  { key: "clean", label: "Clean Energy", desc: "Renewables, PPAs, and grid decarbonization", color: "#00F0FF", weight: 1.0 },
-  { key: "efficiency", label: "Efficiency", desc: "Process optimization and lower energy intensity", color: "#00FFB2", weight: 0.85 },
-  { key: "supply", label: "Supply Chain", desc: "Supplier engagement and Scope 3 reduction", color: "#7C5CFF", weight: 0.7 },
-  { key: "nature", label: "Nature & Resilience", desc: "Flood protection, adaptation, biodiversity", color: "#FFB800", weight: 0.55 },
-  { key: "reporting", label: "Reporting Controls", desc: "Audit trails, governance, and disclosure", color: "#FF7A00", weight: 0.6 },
+  { key: "clean", label: "Clean Energy", desc: "Renewables, PPAs, and grid decarbonization", color: "#0D9488", weight: 1.0 },
+  { key: "efficiency", label: "Efficiency", desc: "Process optimization and lower energy intensity", color: "#10B981", weight: 0.85 },
+  { key: "supply", label: "Supply Chain", desc: "Supplier engagement and Scope 3 reduction", color: "#6366F1", weight: 0.7 },
+  { key: "nature", label: "Nature & Resilience", desc: "Flood protection, adaptation, biodiversity", color: "#D9A01E", weight: 0.55 },
+  { key: "reporting", label: "Reporting Controls", desc: "Audit trails, governance, and disclosure", color: "#EA580C", weight: 0.6 },
 ];
 
 function useCounter(target) {
@@ -63,10 +63,10 @@ export default function ScenarioEngine() {
   const animReduction = Math.round(useCounter(reduction));
 
   const categories = [
-    { label: "Emissions reduction", val: Math.round(vals.clean * 0.5 + vals.efficiency * 0.5), color: "#00FFB2" },
-    { label: "Clean energy transition", val: vals.clean, color: "#00F0FF" },
-    { label: "Climate resilience", val: Math.round(vals.nature * 0.6 + vals.supply * 0.4), color: "#7C5CFF" },
-    { label: "Disclosure readiness", val: vals.reporting, color: "#FFB800" },
+    { label: "Emissions reduction", val: Math.round(vals.clean * 0.5 + vals.efficiency * 0.5), color: "#10B981" },
+    { label: "Clean energy transition", val: vals.clean, color: "#0D9488" },
+    { label: "Climate resilience", val: Math.round(vals.nature * 0.6 + vals.supply * 0.4), color: "#6366F1" },
+    { label: "Disclosure readiness", val: vals.reporting, color: "#D9A01E" },
   ];
 
   return (
@@ -103,7 +103,7 @@ export default function ScenarioEngine() {
                 onChange={(e) => setLever(l.key, Number(e.target.value))}
                 className="tilnest-slider w-full"
                 style={{
-                  background: `linear-gradient(90deg, ${l.color} ${vals[l.key]}%, rgba(255,255,255,0.08) ${vals[l.key]}%)`,
+                  background: `linear-gradient(90deg, ${l.color} ${vals[l.key]}%, rgba(15,118,110,0.12) ${vals[l.key]}%)`,
                 }}
               />
             </div>
@@ -121,7 +121,7 @@ export default function ScenarioEngine() {
         </div>
 
         {/* Resilience waveform */}
-        <div className="mt-6 rounded-xl border border-border bg-black/30 p-4">
+        <div className="mt-6 rounded-xl border border-border bg-secondary/60 p-4">
           <div className="flex items-end justify-between">
             <div>
               <p className="font-mono text-xs text-muted-foreground">Readiness Score</p>
@@ -138,8 +138,8 @@ export default function ScenarioEngine() {
           <svg viewBox="0 0 300 90" className="mt-4 h-24 w-full overflow-visible">
             <defs>
               <linearGradient id="waveGrad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#FFB800" />
-                <stop offset="100%" stopColor="#00F0FF" />
+                <stop offset="0%" stopColor="#D9A01E" />
+                <stop offset="100%" stopColor="#0D9488" />
               </linearGradient>
             </defs>
             <motion.path
@@ -162,7 +162,7 @@ export default function ScenarioEngine() {
                 <span className="text-muted-foreground">{c.label}</span>
                 <span style={{ color: c.color }}>{c.val}/100</span>
               </div>
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
                 <motion.div
                   className="h-full rounded-full"
                   style={{ background: c.color }}

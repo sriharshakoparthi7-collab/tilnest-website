@@ -20,9 +20,9 @@ export default function ParticleField({ tone = "cyan", density = 1, className = 
     ).matches;
 
     const tones = {
-      cyan: [0, 240, 255],
-      amber: [255, 184, 0],
-      green: [0, 255, 178],
+      cyan: [13, 148, 136],
+      amber: [217, 160, 30],
+      green: [16, 185, 129],
     };
     const [r, g, b] = tones[tone] || tones.cyan;
 
@@ -54,7 +54,7 @@ export default function ParticleField({ tone = "cyan", density = 1, className = 
         if (p.y < 0 || p.y > h) p.vy *= -1;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${r},${g},${b},0.6)`;
+        ctx.fillStyle = `rgba(${r},${g},${b},0.55)`;
         ctx.fill();
 
         if (!reduced) {
@@ -67,7 +67,7 @@ export default function ParticleField({ tone = "cyan", density = 1, className = 
               ctx.beginPath();
               ctx.moveTo(p.x, p.y);
               ctx.lineTo(q.x, q.y);
-              ctx.strokeStyle = `rgba(${r},${g},${b},${0.12 * (1 - dist / 120)})`;
+              ctx.strokeStyle = `rgba(${r},${g},${b},${0.16 * (1 - dist / 120)})`;
               ctx.lineWidth = 0.5;
               ctx.stroke();
             }

@@ -52,10 +52,10 @@ export default function ClimateGlobe({ mode = "chaos", intensity = 0.6, classNam
       // Core wireframe globe
       const geo = new THREE.IcosahedronGeometry(1.8, 4);
       const mat = new THREE.MeshBasicMaterial({
-        color: 0x00f0ff,
+        color: 0x0d9488,
         wireframe: true,
         transparent: true,
-        opacity: 0.18,
+        opacity: 0.28,
       });
       globe = new THREE.Mesh(geo, mat);
       scene.add(globe);
@@ -63,9 +63,9 @@ export default function ClimateGlobe({ mode = "chaos", intensity = 0.6, classNam
       // Inner solid glow sphere
       const innerGeo = new THREE.SphereGeometry(1.74, 48, 48);
       const innerMat = new THREE.MeshBasicMaterial({
-        color: 0x0a1a2e,
+        color: 0xccfbf1,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.35,
       });
       const inner = new THREE.Mesh(innerGeo, innerMat);
       scene.add(inner);
@@ -86,10 +86,10 @@ export default function ClimateGlobe({ mode = "chaos", intensity = 0.6, classNam
       }
       pGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
       const pMat = new THREE.PointsMaterial({
-        color: 0xffb800,
+        color: 0xd9a01e,
         size: 0.035,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.85,
         sizeAttenuation: true,
       });
       particles = new THREE.Points(pGeo, pMat);
@@ -99,9 +99,9 @@ export default function ClimateGlobe({ mode = "chaos", intensity = 0.6, classNam
       for (let k = 0; k < 3; k++) {
         const ringGeo = new THREE.TorusGeometry(2.4 + k * 0.35, 0.006, 8, 120);
         const ringMat = new THREE.MeshBasicMaterial({
-          color: 0x00f0ff,
+          color: 0x10b981,
           transparent: true,
-          opacity: 0.25 - k * 0.05,
+          opacity: 0.32 - k * 0.06,
         });
         const ring = new THREE.Mesh(ringGeo, ringMat);
         ring.rotation.x = Math.PI / 2.2 + k * 0.25;
@@ -113,8 +113,8 @@ export default function ClimateGlobe({ mode = "chaos", intensity = 0.6, classNam
       mount.addEventListener("mousemove", onMove);
 
       const basePositions = positions.slice();
-      const color1 = new THREE.Color(0xffb800);
-      const color2 = new THREE.Color(0x00f0ff);
+      const color1 = new THREE.Color(0xd9a01e);
+      const color2 = new THREE.Color(0x10b981);
       const tmpColor = new THREE.Color();
 
       const clock = new THREE.Clock();
@@ -200,8 +200,8 @@ export default function ClimateGlobe({ mode = "chaos", intensity = 0.6, classNam
             aspectRatio: "1",
             background:
               mode === "order"
-                ? "radial-gradient(circle at 40% 35%, rgba(0,240,255,0.5), rgba(0,255,178,0.15) 45%, transparent 70%)"
-                : "radial-gradient(circle at 40% 35%, rgba(255,184,0,0.5), rgba(255,80,0,0.15) 45%, transparent 70%)",
+                ? "radial-gradient(circle at 40% 35%, rgba(13,148,136,0.4), rgba(16,185,129,0.12) 45%, transparent 70%)"
+                : "radial-gradient(circle at 40% 35%, rgba(217,160,30,0.4), rgba(13,148,136,0.12) 45%, transparent 70%)",
             filter: "blur(8px)",
           }}
         />

@@ -14,7 +14,7 @@ export default function GlowButton({
     primary:
       "bg-primary text-primary-foreground hover:scale-[1.03] hover:glow-cyan",
     ghost:
-      "border border-primary/40 text-foreground hover:border-primary hover:glow-cyan hover:scale-[1.03] bg-white/[0.02]",
+      "border border-primary/40 text-primary hover:border-primary hover:glow-cyan hover:scale-[1.03] bg-white",
     green:
       "bg-resilience text-primary-foreground hover:scale-[1.03] hover:glow-green",
   };
