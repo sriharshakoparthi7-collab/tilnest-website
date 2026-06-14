@@ -72,11 +72,10 @@ export default function ScrollStory() {
           className="absolute inset-0"
           style={{ background: bg }}
         />
-        <div className="absolute inset-0 grid-pattern opacity-30" />
         <ParticleField
           tone={active < 2 ? "amber" : active < 4 ? "cyan" : "green"}
-          density={1}
-          className="absolute inset-0 h-full w-full opacity-50"
+          density={0.6}
+          className="absolute inset-0 h-full w-full opacity-30"
         />
 
         {/* Central globe */}
@@ -110,7 +109,7 @@ export default function ScrollStory() {
         </motion.div>
 
         {/* Text overlay */}
-        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
+        <div className="relative z-10 mx-auto max-w-2xl px-6 text-center" style={{ textShadow: "0 2px 16px rgba(255,255,255,0.9)" }}>
           {scenes.map((s, i) => (
             <motion.div
               key={i}

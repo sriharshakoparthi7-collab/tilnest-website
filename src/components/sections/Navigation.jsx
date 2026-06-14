@@ -16,12 +16,28 @@ const links = [
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const { openWaitlist } = useWaitlist();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sectionIds = links.map((l) => l.href.replace("#", ""));
+    const observers = sectionIds.map((id) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
+        { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+      );
+      obs.observe(el);
+      return () => obs.disconnect();
+    });
+    return () => observers.forEach((cleanup) => cleanup?.());
   }, []);
 
   return (
@@ -45,15 +61,24 @@ export default function Navigation() {
         </a>
 
         <div className="hidden items-center gap-7 lg:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) => {
+            const id = l.href.replace("#", "");
+            const isActive = activeSection === id;
+            return (
+              <a
+                key={l.href}
+                href={l.href}
+                className={`font-mono text-sm transition-colors relative ${
+                  isActive ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {l.label}
+                {isActive && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-primary" />
+                )}
+              </a>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-3">
@@ -85,7 +110,9 @@ export default function Navigation() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setMobileOpen(false)}
-                className="font-mono text-base text-muted-foreground transition-colors hover:text-foreground"
+                className={`font-mono text-base transition-colors ${
+                  activeSection === l.href.replace("#", "") ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground"
+                }`}
               >
                 {l.label}
               </a>
